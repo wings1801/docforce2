@@ -69,9 +69,14 @@ class SfdcGenerateExcelController {
     }
     
     private static SfdcWorkflow createWorkflow(String inputBaseDir, String param){
-        assert param : "'workflow' parameter is not set"
-        def xmlFile = getPathIfExists(inputBaseDir + param)
-        return new SfdcWorkflow(xmlFile.text)
+        // workflowがないオブジェクトの場合出力しないようにする
+        if(param != null && param != "") {
+            assert param : "'workflow' parameter is not set"
+            def xmlFile = getPathIfExists(inputBaseDir + param)
+            return new SfdcWorkflow(xmlFile.text)
+        }
+        
+        return new SfdcWorkflow
     }
     
     
